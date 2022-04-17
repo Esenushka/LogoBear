@@ -1,9 +1,9 @@
-import axios from "axios";
+import Api from "../api/api";
 
 
 export default function LetMeIn({setAuth}) {
   const LetIn = () => {
-    axios.post("https://jogtracker.herokuapp.com/api/v1/auth/uuidLogin", {
+    Api.post("auth/uuidLogin", {
       "uuid": "hello"
     })
       .then(async data => {

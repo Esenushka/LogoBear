@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Api from '../api/api'
 
 const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const data = JSON.parse(localStorage.getItem("data"))
@@ -20,14 +20,14 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const [jogsState, setJogsState] = useState(false);
 
   useEffect(() => {
-    axios.get("https://jogtracker.herokuapp.com/api/v1/auth/user", {
+    Api.get("auth/user", {
       headers: { 'Authorization': `Bearer ${data.access_token}` }
     })
       .then(res => setUser(res.data.response))
   }, [])
 
   useEffect(() => {
-    axios.get("https://jogtracker.herokuapp.com/api/v1/data/sync", {
+    Api.get("data/sync", {
       headers: { 'Authorization': `Bearer ${data.access_token}` }
     })
       .then(res => setJogs(res.data.response.jogs))
@@ -35,7 +35,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
 
   const submit = (e) => {
     e.preventDefault()
-    axios.post("https://jogtracker.herokuapp.com/api/v1/data/jog", {
+    Api.post("data/jog", {
       'date': date,
       "time": time,
       "distance": distance,
@@ -57,7 +57,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
 
   const edit = (e) => {
     e.preventDefault()
-    axios.put("https://jogtracker.herokuapp.com/api/v1/data/jog", {
+    Api.put("data/jog", {
       'date': editedDate,
       "time": editedTime,
       "distance": editedDistance,
@@ -102,7 +102,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
         </div>
         <div>
           <div>Date</div>
-          <input onChange={(el) => { setDate(el.target.value) }} type={"date"} />
+          <input required onChange={(el) => { setDate(el.target.value) }} type={"date"} />
         </div>
         <button onClick={() => { setActive(false) }}>Save</button>
       </form>
