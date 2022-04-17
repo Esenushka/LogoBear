@@ -14,7 +14,7 @@ export default function LetMeIn({setAuth}) {
   return (
     <div className='let-me-in_wrapper'>
       <div>
-        <img src='/images/bear-face.png' />
+        <img alt="bear-face-icon" src='/images/bear-face.png' />
         <button onClick={LetIn} className='btn'>Let me in</button>
       </div>
     </div>

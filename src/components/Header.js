@@ -48,6 +48,7 @@ export default function Header({ setDateTo, setDateFrom, activeBurger, setActive
                                 disabled={location.pathname === "/jogs"
                                     ? false : true} onClick={cleanFilter}>
                                 <img
+                                    alt="filter-icon"
                                     className={"filter-img " + ((active && location.pathname === "/jogs")
                                         ? "active" : "")} src={(active && location.pathname === "/jogs")
                                             ? "/images/filter-active.png" : '/images/filter.png'}

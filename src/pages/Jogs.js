@@ -90,7 +90,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
 
     <div>
       <form className={'form_modal ' + (active ? "active" : "")} onSubmit={submit}>
-        <div className='form_close-btn'><img onClick={() => { setActive(false) }} src='/images/cancel.png' /></div>
+        <div className='form_close-btn'><img alt='close-btn' onClick={() => { setActive(false) }} src='/images/cancel.png' /></div>
         <div>
           <div>Distance</div>
           <input required onChange={(el) => { setDistance(el.target.value) }} type={"number"} />
@@ -110,7 +110,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
 
       <form className={'form_modal ' + (editActive ? "active" : "")} onSubmit={edit}>
         <div className='form_close-btn'>
-          <img onClick={() => setEditActive(false)} src='/images/cancel.png' />
+          <img alt='cancel' onClick={() => setEditActive(false)} src='/images/cancel.png' />
         </div>
         <div>
           <div>Distance</div>
@@ -152,6 +152,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
                   (
                     (dateTo === 0 && dateFrom === 0) ? <div key={el.id}>
                       <img
+                        alt="runner-icon"
                         style={{ cursor: "pointer" }}
                         onClick={() => { editModalOpen(el.id) }}
                         src='/images/runner-icon.png'
@@ -165,6 +166,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
                     </div>
                       : ((dateFrom <= el.date * 1000) && (dateTo >= el.date * 1000)) ? <div key={el.id}>
                         <img
+                          alt='runner-icon'
                           style={{ cursor: "pointer" }}
                           onClick={() => { editModalOpen(el.id) }}
                           src='/images/runner-icon.png'
@@ -180,11 +182,11 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
                   )
                   : "")}
               </div>
-              <img onClick={() => setActive(true)} className="add" src='/images/add.png' />
+              <img alt='add-icon' onClick={() => setActive(true)} className="add" src='/images/add.png' />
             </div>
           </div> :
           <div className={'nothing_wrapper ' + (active ? "active" : "")}>
-            <img src='/images/sad-rounded.png' />
+            <img alt='sad-icon' src='/images/sad-rounded.png' />
             <div>Nothing is there</div>
             <button onClick={() => { setActive(true) }}>Create your jog first</button>
           </div>
