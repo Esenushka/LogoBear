@@ -24,7 +24,7 @@ function App() {
   const [dateFrom, setDateFrom] = useState(0)
   const [dateTo, setDateTo] = useState(0)
   const [activeBurger, setActiveBurger] = useState(false)
-  
+
   return (
     <BrowserRouter>
       <div>

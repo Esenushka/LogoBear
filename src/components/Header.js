@@ -13,11 +13,11 @@ export default function Header({ setDateTo, setDateFrom, activeBurger, setActive
     return (
         <div>
             <div className={"header_wrapper " + ((active && location.pathname === "/jogs") ? "active" : "")} >
-                <header>
+                <header className={"header "  + (activeBurger ? "active" : "")}>
                     <div className='container'>
                         <div className='header_left-block'>
-                            <img src='/images/logo.png' alt='logo' />
-                            <span>LOGOBEAR</span>
+                            <img className={"logo " + (activeBurger ? "active" : "")} src='/images/logo.png' alt='logo' />
+                            <span className={"logo_text " + (activeBurger ? "active" : "")}>LOGOBEAR</span>
                         </div>
                         <div className={'header_right-block ' + (location.pathname === "/" ? "active" : "")}>
                             <div className="pages_wrapper">
@@ -33,24 +33,24 @@ export default function Header({ setDateTo, setDateFrom, activeBurger, setActive
                                     width="50"
                                 >
                                     <path
-                                        className="line top"
+                                        className={"top line " + (activeBurger ? "active" : "")}
                                         d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"
                                     ></path>
-                                    <path className="line middle" d="m 70,50 h -40"></path>
+                                    <path className={"midlle line " + (activeBurger ? "active" : "")} d="m 70,50 h -40"></path>
                                     <path
-                                        className="line bottom"
+                                        className={"bottom line " + (activeBurger ? "active" : "")}
                                         d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"
                                     ></path>
                                 </svg>
                             </div>
 
-                            <button className={"filter-btn " + (location.pathname !== "/jogs" ? "active" : "")}
-                                disabled={location.pathname === "/jogs"
+                            <button className={"filter-btn " + (location.pathname !== "/jogs" || activeBurger ? "active" : "")}
+                                disabled={((location.pathname === "/jogs") || activeBurger)
                                     ? false : true} onClick={cleanFilter}>
                                 <img
                                     alt="filter-icon"
                                     className={"filter-img " + ((active && location.pathname === "/jogs")
-                                        ? "active" : "")} src={(active && location.pathname === "/jogs")
+                                        ? "active" : "")} src={(active && location.pathname === "/jogs") || activeBurger
                                             ? "/images/filter-active.png" : '/images/filter.png'}
                                 />
                             </button>

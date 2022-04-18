@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Api from '../api/api'
+import AddForm from '../components/AddForm'
+import EditForm from '../components/EditForm'
 
 const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const data = JSON.parse(localStorage.getItem("data"))
   const [jogs, setJogs] = useState([])
-
   const [added, setAdded] = useState(0);
-  const [distance, setDistance] = useState(0)
-  const [time, setTime] = useState(0)
-  const [date, setDate] = useState("")
   const [active, setActive] = useState(false)
   const [editedDistance, setEditedDistance] = useState(0)
   const [editedTime, setEditedTime] = useState(0)
@@ -33,18 +31,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
       .then(res => setJogs(res.data.response.jogs))
   }, [added]);
 
-  const submit = (e) => {
-    e.preventDefault()
-    Api.post("data/jog", {
-      'date': date,
-      "time": time,
-      "distance": distance,
-    },
-      {
-        headers: { 'Authorization': `Bearer ${data.access_token}` }
-      })
-    setAdded(added + 1)
-  }
+
 
   useEffect(() => {
     jogs.forEach((el) => {
@@ -68,7 +55,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
         headers: { 'Authorization': `Bearer ${data.access_token}` }
       })
     setAdded(added + 1)
-
+    setEditActive(false)
   }
   const editModalOpen = (id) => {
     jogs.forEach((el) => {
@@ -89,59 +76,13 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   return (
 
     <div>
-      <form className={'form_modal ' + (active ? "active" : "")} onSubmit={submit}>
-        <div className='form_close-btn'><img alt='close-btn' onClick={() => { setActive(false) }} src='/images/cancel.png' /></div>
-        <div>
-          <div>Distance</div>
-          <input required onChange={(el) => { setDistance(el.target.value) }} type={"number"} />
-
-        </div>
-        <div>
-          <div>Time</div>
-          <input required onChange={(el) => { setTime(el.target.value) }} type={"number"} />
-        </div>
-        <div>
-          <div>Date</div>
-          <input required onChange={(el) => { setDate(el.target.value) }} type={"date"} />
-        </div>
-        <button onClick={() => { setActive(false) }}>Save</button>
-      </form>
-
-
-      <form className={'form_modal ' + (editActive ? "active" : "")} onSubmit={edit}>
-        <div className='form_close-btn'>
-          <img alt='cancel' onClick={() => setEditActive(false)} src='/images/cancel.png' />
-        </div>
-        <div>
-          <div>Distance</div>
-          <input
-            value={editedDistance}
-            required
-            onChange={(el) => { setEditedDistance(el.target.value) }}
-            type={"number"}
-          />
-
-        </div>
-        <div>
-          <div>Time</div>
-          <input
-            value={editedTime}
-            required
-            onChange={(el) => { setEditedTime(el.target.value) }}
-            type={"number"}
-          />
-        </div>
-        <div>
-          <div>Date</div>
-          <input value={editedDate}
-            required
-            onChange={(el) => { setEditedDate(el.target.value) }}
-            type={"date"}
-          />
-        </div>
-        <button onClick={() => { setEditActive(false) }}>Save</button>
-      </form>
-
+      <AddForm data={data} setActive={setActive} active={active} added={added} setAdded={setAdded} />
+      <EditForm
+        setEditActive={setEditActive} setEditedDate={setEditedDate}
+        setEditedDistance={setEditedDistance} setEditedTime={setEditedTime}
+        editedDate={editedDate} editedDistance={editedDistance}
+        editedTime={editedTime} edit={edit} editActive={editActive}
+      />
       {
         jogsState
           ?
