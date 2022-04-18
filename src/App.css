@@ -576,6 +576,9 @@ form button:hover {
 }
 
 @media (max-width: 512px) {
+  .header_wrapper{
+    height: 20vh;
+  }
   .info_wrapper > div {
     width: 85%;
   }
