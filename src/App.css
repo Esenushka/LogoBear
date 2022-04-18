@@ -557,9 +557,6 @@ form button:hover {
   .form_close-btn > img {
     width: 20px;
   }
-  header {
-    height: 20vh;
-  }
 }
 .contact {
   display: flex;
@@ -576,9 +573,7 @@ form button:hover {
 }
 
 @media (max-width: 512px) {
-  .header_wrapper{
-    height: 20vh;
-  }
+ 
   .info_wrapper > div {
     width: 85%;
   }
