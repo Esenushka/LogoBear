@@ -1,15 +1,14 @@
-import Api from "../api/api";
+import  Api  from "../api/api";
 
 
-export default function LetMeIn({setAuth}) {
+export default function LetMeIn({ setAuth }) {
   const LetIn = () => {
-    Api.post("auth/uuidLogin", {
+    Api.post({
       "uuid": "hello"
     })
-      .then(async data => {
+      .then( data => {
         setAuth(data.data.response)
       })  
-
   }
   return (
     <div className='let-me-in_wrapper'>

@@ -18,16 +18,12 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const [jogsState, setJogsState] = useState(false);
 
   useEffect(() => {
-    Api.get("auth/user", {
-      headers: { 'Authorization': `Bearer ${data.access_token}` }
-    })
+    Api.getAllUser()
       .then(res => setUser(res.data.response))
   }, [])
 
   useEffect(() => {
-    Api.get("data/sync", {
-      headers: { 'Authorization': `Bearer ${data.access_token}` }
-    })
+    Api.getAllSync()
       .then(res => setJogs(res.data.response.jogs))
   }, [added]);
 
@@ -44,16 +40,13 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
 
   const edit = (e) => {
     e.preventDefault()
-    Api.put("data/jog", {
+    Api.putJog({
       'date': editedDate,
       "time": editedTime,
       "distance": editedDistance,
       "jog_id": jogId,
       "user_id": userId
-    },
-      {
-        headers: { 'Authorization': `Bearer ${data.access_token}` }
-      })
+    })
     setAdded(added + 1)
     setEditActive(false)
   }

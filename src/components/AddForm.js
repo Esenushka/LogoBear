@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import Api from '../api/api'
 
-export default function AddForm({ active, setActive, added, setAdded, data }) {
+export default function AddForm({ active, setActive, added, setAdded }) {
     const [distance, setDistance] = useState(0)
     const [time, setTime] = useState(0)
     const [date, setDate] = useState("")
-
     const submit = (e) => {
         e.preventDefault()
-        Api.post("data/jog", {
+        Api.postJog({
             'date': date,
             "time": time,
             "distance": distance,
-        },
-            {
-                headers: { 'Authorization': `Bearer ${data.access_token}` }
-            })
+        })
         setAdded(added + 1)
         setActive(false)
     }

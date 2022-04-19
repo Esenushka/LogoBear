@@ -21,6 +21,7 @@ function App() {
     localStorage.setItem("data", JSON.stringify(auth))
   }, [auth]);
 
+  
   const [dateFrom, setDateFrom] = useState(0)
   const [dateTo, setDateTo] = useState(0)
   const [activeBurger, setActiveBurger] = useState(false)
