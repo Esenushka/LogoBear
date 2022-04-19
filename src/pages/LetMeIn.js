@@ -1,4 +1,4 @@
-import  Api  from "../api/api";
+import Api from "../api/api";
 
 
 export default function LetMeIn({ setAuth }) {
@@ -6,9 +6,9 @@ export default function LetMeIn({ setAuth }) {
     Api.postToken({
       uuid: "hello"
     })
-      .then( data => {
+      .then(data => {
         setAuth(data.data.response)
-      })  
+      })
   }
   return (
     <div className='let-me-in_wrapper'>

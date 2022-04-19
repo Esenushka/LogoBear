@@ -17,36 +17,45 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const [user, setUser] = useState({})
   const [jogsState, setJogsState] = useState(false);
 
+  // First way to make request
+  const getAllSync = async () => {
+    try {
+      const res = await Api.getAllSync()
+      setJogs(res.data.response.jogs)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    getAllSync()
+  }, [added]);
+
+  useEffect(() => {
+    // Second way to make request
     Api.getAllUser()
       .then(res => setUser(res.data.response))
   }, [])
 
   useEffect(() => {
-    Api.getAllSync()
-      .then(res => setJogs(res.data.response.jogs))
-  }, [added]);
-
-
-
-  useEffect(() => {
-    jogs.forEach((el) => {
-      if (user.id === el.user_id) {
-        setJogsState(true)
-      }
-    })
+    // jogs.forEach((el) => {
+    //   if (user.id === el.user_id) {
+    //     setJogsState(true)
+    //   }
+    // })
   }, [jogs])
-
-
+  jogs.find((el) => setJogsState(user.id === el.user_id))
+  console.log(jogsState);
+  const putData = {
+    'date': editedDate,
+    "time": editedTime,
+    "distance": editedDistance,
+    "jog_id": jogId,
+    "user_id": userId
+  }
   const edit = (e) => {
     e.preventDefault()
-    Api.putJog({
-      'date': editedDate,
-      "time": editedTime,
-      "distance": editedDistance,
-      "jog_id": jogId,
-      "user_id": userId
-    })
+    Api.putJog(putData)
     setAdded(added + 1)
     setEditActive(false)
   }

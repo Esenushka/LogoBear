@@ -5,13 +5,16 @@ export default function AddForm({ active, setActive, added, setAdded }) {
     const [distance, setDistance] = useState(0)
     const [time, setTime] = useState(0)
     const [date, setDate] = useState("")
+
+    const postData = {
+        'date': date,
+        "time": time,
+        "distance": distance,
+    }
+
     const submit = (e) => {
         e.preventDefault()
-        Api.postJog({
-            'date': date,
-            "time": time,
-            "distance": distance,
-        })
+        Api.postJog(postData)
         setAdded(added + 1)
         setActive(false)
     }
