@@ -38,14 +38,13 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   }, [])
 
   useEffect(() => {
-    // jogs.forEach((el) => {
-    //   if (user.id === el.user_id) {
-    //     setJogsState(true)
-    //   }
-    // })
+    jogs.forEach((el) => {
+      if (user.id === el.user_id) {
+        setJogsState(true)
+      }
+    })
   }, [jogs])
-  jogs.find((el) => setJogsState(user.id === el.user_id))
-  console.log(jogsState);
+  
   const putData = {
     'date': editedDate,
     "time": editedTime,
