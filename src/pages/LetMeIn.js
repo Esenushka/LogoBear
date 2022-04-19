@@ -3,8 +3,8 @@ import  Api  from "../api/api";
 
 export default function LetMeIn({ setAuth }) {
   const LetIn = () => {
-    Api.post({
-      "uuid": "hello"
+    Api.postToken({
+      uuid: "hello"
     })
       .then( data => {
         setAuth(data.data.response)
