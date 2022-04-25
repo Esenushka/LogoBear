@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Api from '../api/api'
 
-export default function AddForm({ active, setActive, added, setAdded }) {
+export default React.memo(function AddForm({ active, setActive, added, setAdded }) {
     const [distance, setDistance] = useState(0)
     const [time, setTime] = useState(0)
     const [date, setDate] = useState("")
@@ -18,6 +18,7 @@ export default function AddForm({ active, setActive, added, setAdded }) {
         setAdded(added + 1)
         setActive(false)
     }
+
     return (
         <div>
             <form className={'form_modal ' + (active ? "active" : "")} onSubmit={submit}>
@@ -40,3 +41,4 @@ export default function AddForm({ active, setActive, added, setAdded }) {
         </div>
     )
 }
+)

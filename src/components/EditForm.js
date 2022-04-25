@@ -1,11 +1,10 @@
+import React from "react";
 
-export default function EditForm(
+export default React.memo(function EditForm(
     {
-        edit, setEditedDate,
-        setEditActive, setEditedDistance,
-        setEditedTime, editActive,
-        editedDate, editedDistance, editedTime
+        edit, editActive, setEditActive, editJog, setEditJog
     }) {
+
     return (
         <div>
             <form className={'form_modal ' + (editActive ? "active" : "")} onSubmit={edit}>
@@ -15,9 +14,9 @@ export default function EditForm(
                 <div>
                     <div>Distance</div>
                     <input
-                        value={editedDistance}
+                        value={editJog.distance || 0}
                         required
-                        onChange={(el) => { setEditedDistance(el.target.value) }}
+                        onChange={(el) => { setEditJog({ ...editJog, distance: el.target.value }) }}
                         type={"number"}
                     />
 
@@ -25,17 +24,17 @@ export default function EditForm(
                 <div>
                     <div>Time</div>
                     <input
-                        value={editedTime}
+                        value={editJog.time || 0}
                         required
-                        onChange={(el) => { setEditedTime(el.target.value) }}
+                        onChange={(el) => { setEditJog({ ...editJog, time: el.target.value }) }}
                         type={"number"}
                     />
                 </div>
                 <div>
                     <div>Date</div>
-                    <input value={editedDate}
+                    <input value={editJog.date || "1970-01-01"}
                         required
-                        onChange={(el) => { setEditedDate(el.target.value) }}
+                        onChange={(el) => { setEditJog({ ...editJog, date: el.target.value }) }}
                         type={"date"}
                     />
                 </div>
@@ -43,4 +42,4 @@ export default function EditForm(
             </form>
         </div>
     )
-}
+})

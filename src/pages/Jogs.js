@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Api from '../api/api'
 import AddForm from '../components/AddForm'
 import EditForm from '../components/EditForm'
@@ -8,14 +8,9 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
   const [jogs, setJogs] = useState([])
   const [added, setAdded] = useState(0);
   const [active, setActive] = useState(false)
-  const [editedDistance, setEditedDistance] = useState(0)
-  const [editedTime, setEditedTime] = useState(0)
-  const [editedDate, setEditedDate] = useState("")
+  const [editJog, setEditJog] = useState({})
   const [editActive, setEditActive] = useState(false)
-  const [jogId, setJogId] = useState(0)
-  const [userId, setUserId] = useState("")
   const [user, setUser] = useState({})
-  const [jogsState, setJogsState] = useState(false);
 
   // First way to make request
   const getAllSync = async () => {
@@ -27,65 +22,45 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
     }
   }
 
-  useEffect(() => {
-    getAllSync()
-  }, [added]);
+  useMemo(() => getAllSync(), [added]);
 
-  useEffect(() => {
+  useMemo(() => {
     // Second way to make request
     Api.getAllUser()
       .then(res => setUser(res.data.response))
   }, [])
 
-  useEffect(() => {
-    jogs.forEach((el) => {
-      if (user.id === el.user_id) {
-        setJogsState(true)
-      }
-    })
-  }, [jogs])
-  
-  const putData = {
-    'date': editedDate,
-    "time": editedTime,
-    "distance": editedDistance,
-    "jog_id": jogId,
-    "user_id": userId
-  }
   const edit = (e) => {
     e.preventDefault()
-    Api.putJog(putData)
+    Api.putJog(editJog)
     setAdded(added + 1)
     setEditActive(false)
   }
-  const editModalOpen = (id) => {
-    jogs.forEach((el) => {
-      if (el.id === id) {
-        setEditedDistance(el.distance)
-        setEditedTime(el.time)
-        let yourDate = new Date(el.date * 1000);
-        const offset = yourDate.getTimezoneOffset()
-        yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
-        const date = yourDate.toISOString().split('T')[0]
-        setEditedDate(date)
-        setJogId(el.id)
-        setUserId(el.user_id)
-        setEditActive(true)
-      }
-    })
+  const editModalOpen = (el) => {
+    let yourDate = new Date(el.date * 1000);
+    const offset = yourDate.getTimezoneOffset()
+    yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
+    const date = yourDate.toISOString().split('T')[0]
+    setEditJog({ ...el, date: date,jog_id: el.id })
+    setEditActive(true)
   }
   return (
 
     <div>
-      <AddForm data={data} setActive={setActive} active={active} added={added} setAdded={setAdded} />
+      <AddForm
+        data={data}
+        setActive={setActive}
+        active={active}
+        added={added}
+        setAdded={setAdded} />
       <EditForm
-        setEditActive={setEditActive} setEditedDate={setEditedDate}
-        setEditedDistance={setEditedDistance} setEditedTime={setEditedTime}
-        editedDate={editedDate} editedDistance={editedDistance}
-        editedTime={editedTime} edit={edit} editActive={editActive}
+        setEditActive={setEditActive}
+        editJog={editJog}
+        setEditJog={setEditJog}
+        edit={edit} editActive={editActive}
       />
       {
-        jogsState
+        jogs.some((item) => { return item.user_id === user.id })
           ?
           <div className={'jogs_wrapper ' + ((active || editActive || activeBurger) ? "active" : "")}>
             <div>
@@ -96,7 +71,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
                       <img
                         alt="runner-icon"
                         style={{ cursor: "pointer" }}
-                        onClick={() => { editModalOpen(el.id) }}
+                        onClick={() => { editModalOpen(el) }}
                         src='/images/runner-icon.png'
                       />
                       <div className='jogs-card'>
@@ -110,7 +85,7 @@ const Jogs = React.memo(({ dateFrom, dateTo, activeBurger }) => {
                         <img
                           alt='runner-icon'
                           style={{ cursor: "pointer" }}
-                          onClick={() => { editModalOpen(el.id) }}
+                          onClick={() => { editModalOpen(el) }}
                           src='/images/runner-icon.png'
                         />
                         <div className='jogs-card'>
